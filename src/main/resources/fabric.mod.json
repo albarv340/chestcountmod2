@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "chestcountmod2",
+  "version": "${version}",
+  "name": "ChestCountMod2",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/chestcountmod2/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "cf.avicia.chestcountmod2.client.ChestCountMod2Client"
+    ],
+    "main": [
+      "cf.avicia.chestcountmod2.ChestCountMod2"
+    ]
+  },
+  "mixins": [
+    "chestcountmod2.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.12",
+    "fabric": "*",
+    "minecraft": "1.19.3"
+  }
+}
