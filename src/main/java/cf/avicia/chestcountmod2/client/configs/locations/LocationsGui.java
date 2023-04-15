@@ -45,8 +45,8 @@ public class LocationsGui extends Screen {
         // Draws a shadowed string with a dark color, to make it easier to read depending on the background
         matrices.push();
         matrices.scale(2.0F, 2.0F, 2.0F);
-        drawCenteredText(matrices, textRenderer, "ChestCountMod Locations", this.width / 4 + 1, 11, 0x444444);
-        drawCenteredText(matrices, textRenderer, "ChestCountMod Locations", this.width / 4, 10, 0xFFFFFF);
+        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Locations", this.width / 4 + 1, 11, 0x444444);
+        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Locations", this.width / 4, 10, 0xFFFFFF);
         matrices.pop();
 
         if (items != null) {

@@ -50,6 +50,6 @@ public class ConfigsCategory extends ButtonWidget {
             color = 0xFFFFFF;
         }
 
-        drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, title, x + 50, y + 6, color);
+        drawCenteredTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, title, x + 50, y + 6, color);
     }
 }

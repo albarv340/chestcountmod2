@@ -46,7 +46,7 @@ public class ConfigsButton extends ButtonWidget {
         int color = 0xFF8888;
         if (choices[currentIndex].equals("Enabled")) color = 0x88FF88;
         if (choices[currentIndex].equals("Edit")) color = 0xFFFF00;
-        drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, choices[currentIndex], getX() + width / 2, getY() + 6, color);
+        drawCenteredTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, choices[currentIndex], getX() + width / 2, getY() + 6, color);
     }
 
     public void setConfigsSection(ConfigsSection configsSection) {
