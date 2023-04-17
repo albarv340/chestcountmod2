@@ -49,14 +49,13 @@ public class EventHandlerClass {
     }
 
 
-    public static void onGuiDraw(MinecraftClient client, Screen screen, MatrixStack matrices, int scaledScreenWidth, int scaledScreenHeight) {
+    public static void checkForMythic(MinecraftClient client, Screen screen) {
         if (client.player == null || !(screen instanceof GenericContainerScreen)) {
             return;
         }
         String containerName = screen.getTitle().getString();
 
         if (containerName.contains("Loot Chest")) {
-            Screen.drawTextWithShadow(matrices, client.textRenderer,Text.of(chestsDry + " Dry"), scaledScreenWidth / 2 - 20, scaledScreenHeight / 2 - 11, new Color(64, 64, 64).getRGB());
             final DefaultedList<Slot> slots = client.player.currentScreenHandler.slots;
             int itemCount = 0;
             for (Slot slot : slots) {
@@ -114,6 +113,20 @@ public class EventHandlerClass {
                     hasMythicBeenRegistered = true;
                 }
             }
+        }
+    }
+
+    public static void drawDryCountInChest(MinecraftClient client, Screen screen, MatrixStack matrices, int scaledScreenWidth, int scaledScreenHeight) {
+        if (client.player == null || !(screen instanceof GenericContainerScreen)) {
+            return;
+        }
+        String containerName = screen.getTitle().getString();
+
+        if (containerName.contains("Loot Chest")) {
+            matrices.push();
+            matrices.translate(0f, 0f, 2999f);
+            client.textRenderer.draw(matrices, chestsDry + " Dry", scaledScreenWidth / 2f - 20, scaledScreenHeight / 2f - 11, new Color(64, 64, 64).getRGB());
+            matrices.pop();
         }
     }
 

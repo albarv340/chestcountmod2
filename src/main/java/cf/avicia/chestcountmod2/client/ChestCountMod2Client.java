@@ -35,7 +35,10 @@ public class ChestCountMod2Client implements ClientModInitializer {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) ->  {
             EventHandlerClass.onChestOpen(client, screen);
             ScreenEvents.beforeRender(screen).register((screen1, matrices, mouseX, mouseY, tickDelta) -> {
-                EventHandlerClass.onGuiDraw(client, screen, matrices, scaledWidth, scaledHeight);
+                EventHandlerClass.checkForMythic(client, screen1);
+            });
+            ScreenEvents.afterRender(screen).register((screen1, matrices, mouseX, mouseY, tickDelta) -> {
+                EventHandlerClass.drawDryCountInChest(client, screen1, matrices, scaledWidth, scaledHeight);
             });
         });
 
