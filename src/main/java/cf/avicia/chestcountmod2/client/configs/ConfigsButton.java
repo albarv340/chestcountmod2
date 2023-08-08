@@ -3,8 +3,8 @@ package cf.avicia.chestcountmod2.client.configs;
 import cf.avicia.chestcountmod2.client.ChestCountMod2Client;
 import cf.avicia.chestcountmod2.client.configs.locations.LocationsGui;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.util.Arrays;
@@ -38,15 +38,15 @@ public class ConfigsButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        fill(matrices, getX(), getY(), getX() + width, getY() + 1, 0xFFFFFFFF);
-        fill(matrices, getX() + width - 1, getY(), getX() + width, getY() + 20, 0xFFFFFFFF);
-        fill(matrices, getX(), getY(), getX() + 1, getY() + 20, 0xFFFFFFFF);
-        fill(matrices, getX(), getY() + 19, getX() + width, getY() + 20, 0xFFFFFFFF);
+    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        drawContext.fill(getX(), getY(), getX() + width, getY() + 1, 0xFFFFFFFF);
+        drawContext.fill(getX() + width - 1, getY(), getX() + width, getY() + 20, 0xFFFFFFFF);
+        drawContext.fill(getX(), getY(), getX() + 1, getY() + 20, 0xFFFFFFFF);
+        drawContext.fill(getX(), getY() + 19, getX() + width, getY() + 20, 0xFFFFFFFF);
         int color = 0xFF8888;
         if (choices[currentIndex].equals("Enabled")) color = 0x88FF88;
         if (choices[currentIndex].equals("Edit")) color = 0xFFFF00;
-        drawCenteredTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, choices[currentIndex], getX() + width / 2, getY() + 6, color);
+        drawContext.drawCenteredTextWithShadow(MinecraftClient.getInstance().textRenderer, choices[currentIndex], getX() + width / 2, getY() + 6, color);
     }
 
     public void setConfigsSection(ConfigsSection configsSection) {

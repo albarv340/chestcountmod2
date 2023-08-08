@@ -2,6 +2,7 @@ package cf.avicia.chestcountmod2.client.configs.locations.locationselements;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -20,8 +21,8 @@ public class TextElement {
         this.text = text;
     }
 
-    public void draw(MatrixStack matrices) {
-        Screen.drawTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, Text.of(text), (int) x, (int) y, color.getRGB());
+    public void draw(DrawContext drawContext) {
+        drawContext.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int) x, (int) y, color.getRGB());
     }
 
     public void move(float changeX, float changeY) {

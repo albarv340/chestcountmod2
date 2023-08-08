@@ -1,6 +1,7 @@
 package cf.avicia.chestcountmod2.client.configs;
 
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -22,7 +23,7 @@ public class ConfigsTextField extends TextFieldWidget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         if (Pattern.matches(this.finalValidation, this.getText())) {
             borderColor = new Color(0, 255, 0, 200);
         } else {
@@ -31,10 +32,10 @@ public class ConfigsTextField extends TextFieldWidget {
 
         int modifiedX = this.getX() - 4;
         int modifiedY = this.getY() - 4;
-        fill(matrices, modifiedX - 1, modifiedY - 1, modifiedX + this.width + 1, modifiedY + this.height + 1, borderColor.getRGB());
-        fill(matrices, modifiedX, modifiedY, modifiedX + this.width, modifiedY + this.height, -16777216);
+        drawContext.fill(modifiedX - 1, modifiedY - 1, modifiedX + this.width + 1, modifiedY + this.height + 1, borderColor.getRGB());
+        drawContext.fill(modifiedX, modifiedY, modifiedX + this.width, modifiedY + this.height, -16777216);
 
-        super.renderButton(matrices, mouseX, mouseY, delta);
+        super.renderButton(drawContext, mouseX, mouseY, delta);
     }
 
     @Override

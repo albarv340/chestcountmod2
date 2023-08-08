@@ -1,8 +1,8 @@
 package cf.avicia.chestcountmod2.client.configs;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.awt.*;
@@ -31,25 +31,25 @@ public class ConfigsCategory extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         int color = 0xBBBBBB;
 
         if (hasSearchItem) {
             int width = MinecraftClient.getInstance().textRenderer.getWidth(title);
-            drawHorizontalLine(matrices,x + 48 - width / 2, x + 52 + width / 2, y + 16, Color.WHITE.getRGB());
+            drawContext.drawHorizontalLine(x + 48 - width / 2, x + 52 + width / 2, y + 16, Color.WHITE.getRGB());
 
             color = 0xFFFFFF;
         }
 
         if (enabled) {
-            fill(matrices, x, y, x + 100, y + 1, 0xFFFFFFFF);
-            fill(matrices, x + 99, y, x + 100, y + 20, 0xFFFFFFFF);
-            fill(matrices, x, y, x + 1, y + 20, 0xFFFFFFFF);
-            fill(matrices, x, y + 19, x + 100, y + 20, 0xFFFFFFFF);
+            drawContext.fill(x, y, x + 100, y + 1, 0xFFFFFFFF);
+            drawContext.fill(x + 99, y, x + 100, y + 20, 0xFFFFFFFF);
+            drawContext.fill(x, y, x + 1, y + 20, 0xFFFFFFFF);
+            drawContext.fill(x, y + 19, x + 100, y + 20, 0xFFFFFFFF);
 
             color = 0xFFFFFF;
         }
 
-        drawCenteredTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, title, x + 50, y + 6, color);
+        drawContext.drawCenteredTextWithShadow(MinecraftClient.getInstance().textRenderer, title, x + 50, y + 6, color);
     }
 }

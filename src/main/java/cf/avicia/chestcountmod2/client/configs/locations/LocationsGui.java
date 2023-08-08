@@ -6,6 +6,7 @@ import cf.avicia.chestcountmod2.client.configs.ConfigsGui;
 import cf.avicia.chestcountmod2.client.configs.locations.locationselements.ElementGroup;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -39,20 +40,20 @@ public class LocationsGui extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         // Makes blur
-        this.renderBackground(matrices);
+        this.renderBackground(drawContext);
         // Draws a shadowed string with a dark color, to make it easier to read depending on the background
-        matrices.push();
-        matrices.scale(2.0F, 2.0F, 2.0F);
-        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Locations", this.width / 4 + 1, 11, 0x444444);
-        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Locations", this.width / 4, 10, 0xFFFFFF);
-        matrices.pop();
+        drawContext.getMatrices().push();
+        drawContext.getMatrices().scale(2.0F, 2.0F, 2.0F);
+        drawContext.drawCenteredTextWithShadow(textRenderer, "ChestCountMod Locations", this.width / 4 + 1, 11, 0x444444);
+        drawContext.drawCenteredTextWithShadow(textRenderer, "ChestCountMod Locations", this.width / 4, 10, 0xFFFFFF);
+        drawContext.getMatrices().pop();
 
         if (items != null) {
-            items.forEach(eg -> eg.drawGuiElement(matrices));
+            items.forEach(eg -> eg.drawGuiElement(drawContext));
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     @Override

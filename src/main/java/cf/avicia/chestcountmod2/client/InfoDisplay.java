@@ -5,6 +5,7 @@ import cf.avicia.chestcountmod2.client.configs.locations.LocationsHandler;
 import cf.avicia.chestcountmod2.client.configs.locations.locationselements.ElementGroup;
 import cf.avicia.chestcountmod2.client.configs.locations.locationselements.TextElement;
 import com.google.gson.JsonObject;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 
@@ -63,7 +64,7 @@ public class InfoDisplay {
         return new ElementGroup("infoLocation", elementsList);
     }
 
-    public static void render(MatrixStack matrixStack) {
-        getElementsToDraw().draw(matrixStack);
+    public static void render(DrawContext drawContext) {
+        getElementsToDraw().draw(drawContext);
     }
 }
