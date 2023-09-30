@@ -3,9 +3,9 @@ package cf.avicia.chestcountmod2.client.configs;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.awt.*;
@@ -29,7 +29,7 @@ public class ConfigsGui extends Screen {
     public TextFieldWidget searchTextField;
 //    public boolean textFieldIsFocused = false;
 
-    public MatrixStack matrices;
+    public DrawContext drawContext;
 
     public ConfigsGui() {
         super(Text.of("ChestCountMod Configs"));
@@ -38,25 +38,25 @@ public class ConfigsGui extends Screen {
     private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.matrices = matrices;
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.drawContext = drawContext;
         // Makes blur
-        this.renderBackground(matrices);
+        this.renderBackground(drawContext, mouseX, mouseY, delta);
         // Draws a shadowed string with a dark color, to make it easier to read depending on the background
-        matrices.push();
-        matrices.scale(2.0F, 2.0F, 2.0F);
-        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Configs", this.width / 4 + 1, 11, 0x444444);
-        drawCenteredTextWithShadow(matrices, textRenderer, "ChestCountMod Configs", this.width / 4, 10, 0xFFFFFF);
-        matrices.pop();
+        drawContext.getMatrices().push();
+        drawContext.getMatrices().scale(2.0F, 2.0F, 2.0F);
+        drawContext.drawCenteredTextWithShadow(textRenderer, "ChestCountMod Configs", this.width / 4 + 1, 11, 0x444444);
+        drawContext.drawCenteredTextWithShadow(textRenderer, "ChestCountMod Configs", this.width / 4, 10, 0xFFFFFF);
+        drawContext.getMatrices().pop();
 
         Screens.getButtons(this).clear();
 
         this.textFieldsList = new ArrayList<>();
 
         if (searchTextField.getText().length() > 0) {
-            drawSections(matrices, getSectionsBySearch());
+            drawSections(drawContext, getSectionsBySearch());
         } else if (!selectedCategory.equals("All")) {
-            drawSections(matrices, totalSections.get(selectedCategory));
+            drawSections(drawContext, totalSections.get(selectedCategory));
         }
 
         // Draw all text field inputs
@@ -72,14 +72,14 @@ public class ConfigsGui extends Screen {
         }
 
         try {
-            super.render(matrices, mouseX, mouseY, delta);
+            super.render(drawContext, mouseX, mouseY, delta);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void drawSections(MatrixStack matrices, ArrayList<ConfigsSection> sectionsList) {
-        drawVerticalLine(matrices, this.width / 16 + 110, startingHeight - 10, this.height - 10, Color.WHITE.getRGB());
+    public void drawSections(DrawContext drawContext, ArrayList<ConfigsSection> sectionsList) {
+        drawContext.drawVerticalLine(this.width / 16 + 110, startingHeight - 10, this.height - 10, Color.WHITE.getRGB());
         ArrayList<ConfigsSection> sectionsToShow = new ArrayList<>(sectionsList.subList(scrollSections, Math.min(scrollSections + (this.height - startingHeight) / (settingLineHeight + settingHeight), sectionsList.size())));
 
         for (ConfigsSection configsSection : sectionsToShow) {
@@ -88,13 +88,13 @@ public class ConfigsGui extends Screen {
         }
 
         if (sectionsToShow.size() == 0) {
-            drawTextWithShadow(matrices, textRenderer, Text.of("[No Settings Found]"), this.width / 16 + 118, startingHeight, new Color(127, 127, 127).getRGB());
+            drawContext.drawTextWithShadow(textRenderer, Text.of("[No Settings Found]"), this.width / 16 + 118, startingHeight, new Color(127, 127, 127).getRGB());
         }
 
         if (sectionsToShow.size() < sectionsList.size()) { // if not all configs fit on screen
             double segmentHeight = (double) ((height / 16 * 15) - startingHeight) / sectionsList.size();
-            drawVerticalLine(matrices, this.width / 16 * 15 + 5, startingHeight, height / 16 * 15, Color.DARK_GRAY.getRGB());
-            drawVerticalLine(matrices, this.width / 16 * 15 + 5, startingHeight + (int) (segmentHeight * scrollSections), startingHeight + (int) (segmentHeight * (scrollSections + sectionsToShow.size())), new Color(32, 110, 225).getRGB());
+            drawContext.drawVerticalLine(this.width / 16 * 15 + 5, startingHeight, height / 16 * 15, Color.DARK_GRAY.getRGB());
+            drawContext.drawVerticalLine(this.width / 16 * 15 + 5, startingHeight + (int) (segmentHeight * scrollSections), startingHeight + (int) (segmentHeight * (scrollSections + sectionsToShow.size())), new Color(32, 110, 225).getRGB());
         }
 
         addCategories(categories);
@@ -153,16 +153,16 @@ public class ConfigsGui extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 
-        if (amount != 0) {
+        if (verticalAmount != 0) {
             try {
-                this.scroll((int) amount, (int) mouseX);
+                this.scroll((int) verticalAmount, (int) mouseX);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
     public ArrayList<ConfigsSection> getSectionsBySearch() {

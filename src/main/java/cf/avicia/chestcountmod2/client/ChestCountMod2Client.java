@@ -31,7 +31,7 @@ public class ChestCountMod2Client implements ClientModInitializer {
         LocationsHandler.initializeLocations();
         CommandInitializer.initializeCommands();
 
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> InfoDisplay.render(matrixStack));
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> InfoDisplay.render(drawContext));
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) ->  {
             EventHandlerClass.onChestOpen(client, screen);
             ScreenEvents.beforeRender(screen).register((screen1, matrices, mouseX, mouseY, tickDelta) -> {

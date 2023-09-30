@@ -2,10 +2,10 @@ package cf.avicia.chestcountmod2.client;
 
 import cf.avicia.chestcountmod2.client.configs.ConfigsHandler;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -116,17 +116,17 @@ public class EventHandlerClass {
         }
     }
 
-    public static void drawDryCountInChest(MinecraftClient client, Screen screen, MatrixStack matrices, int scaledScreenWidth, int scaledScreenHeight) {
+    public static void drawDryCountInChest(MinecraftClient client, Screen screen, DrawContext drawContext, int scaledScreenWidth, int scaledScreenHeight) {
         if (client.player == null || !(screen instanceof GenericContainerScreen)) {
             return;
         }
         String containerName = screen.getTitle().getString();
 
         if (containerName.contains("Loot Chest")) {
-            matrices.push();
-            matrices.translate(0f, 0f, 2999f);
-            client.textRenderer.draw(matrices, chestsDry + " Dry", scaledScreenWidth / 2f - 20, scaledScreenHeight / 2f - 11, new Color(64, 64, 64).getRGB());
-            matrices.pop();
+            drawContext.getMatrices().push();
+            drawContext.getMatrices().translate(0f, 0f, 299f);
+            drawContext.drawText(client.textRenderer, chestsDry + " Dry", scaledScreenWidth / 2 - 20, scaledScreenHeight / 2 - 11, new Color(64, 64, 64).getRGB(), false);
+            drawContext.getMatrices().pop();
         }
     }
 

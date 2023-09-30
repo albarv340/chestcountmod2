@@ -36,7 +36,7 @@ public class ConfigsSection {
     }
 
     public void drawSection(ConfigsGui configsGui, int x, int y) {
-        MinecraftClient.getInstance().inGameHud.getTextRenderer().drawWithShadow(configsGui.matrices, title, (float) x, (float) y, 0xFFFFFF);
+        configsGui.drawContext.drawTextWithShadow(MinecraftClient.getInstance().inGameHud.getTextRenderer(), title, x, y, 0xFFFFFF);
 
         if (button != null) {
             button.setX(x);

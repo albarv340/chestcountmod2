@@ -4,6 +4,7 @@ import cf.avicia.chestcountmod2.client.configs.locations.LocationsGui;
 import cf.avicia.chestcountmod2.client.configs.locations.LocationsHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.HashMap;
@@ -20,14 +21,14 @@ public class ElementGroup {
         this.elementsList = elementsList;
     }
 
-    public void draw(MatrixStack matrices) {
+    public void draw(DrawContext drawContext) {
         if (!LocationsGui.isOpen()) {
-            elementsList.forEach(e -> e.draw(matrices));
+            elementsList.forEach(e -> e.draw(drawContext));
         }
     }
 
-    public void drawGuiElement(MatrixStack matrices) {
-        elementsList.forEach(e -> e.draw(matrices));
+    public void drawGuiElement(DrawContext drawContext) {
+        elementsList.forEach(e -> e.draw(drawContext));
     }
 
     public void pickup(int mouseX, int mouseY) {

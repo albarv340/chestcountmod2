@@ -33,7 +33,7 @@ public class SearchTextField extends TextFieldWidget {
             configsGui.categories.forEach(e -> e.hasSearchItem = false);
             selectionSections.forEach(selectionSection -> configsGui.categories.stream().filter(e -> e.title.equals(selectionSection.configsCategory)).findFirst().get().hasSearchItem = true);
 
-            configsGui.drawSections(configsGui.matrices, selectionSections);
+            configsGui.drawSections(configsGui.drawContext, selectionSections);
         } else {
             configsGui.categories = configsGui.categories.stream().filter(e -> !e.title.equals("All")).collect(Collectors.toList());
             configsGui.setCategory(configsGui.savedCategory);
