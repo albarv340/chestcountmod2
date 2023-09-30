@@ -43,7 +43,7 @@ public class ConfigsHandler {
     }
 
     public static String getConfigPath(String name) {
-        return String.format("chestcountmod/%s/%s.json", MinecraftClient.getInstance().getSession().getUuid().replaceAll("-", ""), name);
+        return String.format("chestcountmod/%s/%s.json", MinecraftClient.getInstance().getSession().getUuidOrNull().toString().replaceAll("-", ""), name);
     }
 
     public static String getConfig(String configKey) {

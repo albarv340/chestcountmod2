@@ -6,7 +6,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.awt.*;
@@ -42,7 +41,7 @@ public class ConfigsGui extends Screen {
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.drawContext = drawContext;
         // Makes blur
-        this.renderBackground(drawContext);
+        this.renderBackground(drawContext, mouseX, mouseY, delta);
         // Draws a shadowed string with a dark color, to make it easier to read depending on the background
         drawContext.getMatrices().push();
         drawContext.getMatrices().scale(2.0F, 2.0F, 2.0F);
@@ -154,16 +153,16 @@ public class ConfigsGui extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 
-        if (amount != 0) {
+        if (verticalAmount != 0) {
             try {
-                this.scroll((int) amount, (int) mouseX);
+                this.scroll((int) verticalAmount, (int) mouseX);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
     public ArrayList<ConfigsSection> getSectionsBySearch() {
