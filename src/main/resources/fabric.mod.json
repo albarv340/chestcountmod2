@@ -9,6 +9,7 @@
   "license": "MIT",
   "icon": "assets/chestcountmod2/icon.png",
   "environment": "client",
+  "accessWidener" : "chestcountmod2.accesswidener",
   "entrypoints": {
     "client": [
       "cf.avicia.chestcountmod2.client.ChestCountMod2Client"

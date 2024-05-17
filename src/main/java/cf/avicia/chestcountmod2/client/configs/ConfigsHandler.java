@@ -13,6 +13,7 @@ public class ConfigsHandler {
 
     public static Config[] configsArray = new Config[]{
             new ConfigToggle("General", "Randomize color of Loot Chest names", "Disabled", "enableColoredName"),
+            new ConfigToggle("General", "Abbreviate Loot Chest to LC", "Enabled", "abbreviateLootChest"),
             new ConfigToggle("Chat", "Say mythic found in chat", "Enabled", "displayMythicOnFind"),
             new ConfigToggle("Chat", "Say mythic type in chat on mythic found", "Enabled", "displayMythicTypeOnFind"),
             new ConfigToggle("Display", "Always display chest count on screen", "Disabled", "alwaysShowChestCount"),

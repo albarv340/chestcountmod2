@@ -26,10 +26,6 @@ public class EventHandlerClass {
             return;
         }
 
-        if (!ChestCountMod2Client.getChestCountData().hasBeenInitialized()) {
-            ChestCountMod2Client.getChestCountData().updateChestCount();
-            ChestCountMod2Client.getMythicData().updateDry();
-        }
         String containerName = screen.getTitle().getString();
         // It is a loot chest, and it doesn't already have a new name
         if (containerName.contains("Loot Chest") && !containerName.contains("#")) {
@@ -40,11 +36,14 @@ public class EventHandlerClass {
             final int totalChestCount = ChestCountMod2Client.getChestCountData().getTotalChestCount();
             // Defaults to not having a mythic in the chest
             hasMythicBeenRegistered = false;
-            screen.getTitle().getSiblings().add(Text.of(String.format("%s #%s Tot: %,.0f",
-                    (ConfigsHandler.getConfigBoolean("enableColoredName") ? colors[totalChestCount % colors.length] : ""),
+            String titleColor = (ConfigsHandler.getConfigBoolean("enableColoredName") ? colors[totalChestCount % colors.length] : "§8");
+            screen.title = Text.of(String.format("%s%s %s#%s Tot: %,.0f",
+                    titleColor,
+                    (ConfigsHandler.getConfigBoolean("abbreviateLootChest") ? screen.getTitle().getString().replace("Loot Chest", "LC") : screen.getTitle().getString()),
+                    titleColor,
                     ChestCountMod2Client.getChestCountData().getSessionChestCount(),
                     (double) totalChestCount).replace(" ", ",")
-            ));
+            );
         }
     }
 
@@ -71,7 +70,7 @@ public class EventHandlerClass {
             for (Slot slot : slots) {
                 ItemStack itemStack = slot.getStack();
                 if (!itemStack.getName().getString().equals("Air") && !slot.inventory.equals(client.player.getInventory())) {
-                    List<Text> lore = itemStack.getTooltip(client.player,  TooltipContext.Default.ADVANCED);
+                    List<Text> lore = itemStack.getTooltip(client.player, TooltipContext.Default.ADVANCED);
                     // Find whether the lore includes Tier: Mythic
                     Optional<Text> mythicTier = lore.stream().filter(line -> line.getString().contains("Tier: Mythic")).findFirst();
                     Optional<Text> itemLevel = lore.stream().filter(line -> line.getString().contains("Lv. ")).findFirst();

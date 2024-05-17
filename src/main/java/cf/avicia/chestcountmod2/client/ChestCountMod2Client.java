@@ -42,6 +42,7 @@ public class ChestCountMod2Client implements ClientModInitializer {
             });
         });
 
+
         ChestCountMod2Client.getChestCountData().updateChestCount();
         ChestCountMod2Client.getMythicData().updateDry();
 
@@ -49,6 +50,10 @@ public class ChestCountMod2Client implements ClientModInitializer {
             if (screenToRender != null) {
                 client.setScreen(screenToRender);
                 screenToRender = null;
+            }
+            if (!ChestCountMod2Client.getChestCountData().hasBeenInitialized()) {
+                ChestCountMod2Client.getChestCountData().updateChestCount();
+                ChestCountMod2Client.getMythicData().updateDry();
             }
         });
     }
