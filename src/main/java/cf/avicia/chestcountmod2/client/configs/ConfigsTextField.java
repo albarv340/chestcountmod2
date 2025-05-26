@@ -23,7 +23,7 @@ public class ConfigsTextField extends TextFieldWidget {
     }
 
     @Override
-    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void renderWidget(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         if (Pattern.matches(this.finalValidation, this.getText())) {
             borderColor = new Color(0, 255, 0, 200);
         } else {
@@ -35,7 +35,7 @@ public class ConfigsTextField extends TextFieldWidget {
         drawContext.fill(modifiedX - 1, modifiedY - 1, modifiedX + this.width + 1, modifiedY + this.height + 1, borderColor.getRGB());
         drawContext.fill(modifiedX, modifiedY, modifiedX + this.width, modifiedY + this.height, -16777216);
 
-        super.renderButton(drawContext, mouseX, mouseY, delta);
+        super.renderWidget(drawContext, mouseX, mouseY, delta);
     }
 
     @Override

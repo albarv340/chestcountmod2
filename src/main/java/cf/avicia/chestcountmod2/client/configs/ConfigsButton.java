@@ -38,7 +38,7 @@ public class ConfigsButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void renderWidget(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         drawContext.fill(getX(), getY(), getX() + width, getY() + 1, 0xFFFFFFFF);
         drawContext.fill(getX() + width - 1, getY(), getX() + width, getY() + 20, 0xFFFFFFFF);
         drawContext.fill(getX(), getY(), getX() + 1, getY() + 20, 0xFFFFFFFF);

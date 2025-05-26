@@ -5,8 +5,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -53,8 +54,7 @@ public class EventHandlerClass {
             return;
         }
         String containerName = screen.getTitle().getString();
-
-        if (containerName.contains("Loot Chest")) {
+        if (isLootChest(containerName)) {
             final DefaultedList<Slot> slots = client.player.currentScreenHandler.slots;
             int itemCount = 0;
             for (Slot slot : slots) {
@@ -70,8 +70,9 @@ public class EventHandlerClass {
             for (Slot slot : slots) {
                 ItemStack itemStack = slot.getStack();
                 if (!itemStack.getName().getString().equals("Air") && !slot.inventory.equals(client.player.getInventory())) {
-                    List<Text> lore = itemStack.getTooltip(client.player, TooltipContext.Default.ADVANCED);
+                    List<Text> lore = itemStack.getTooltip(Item.TooltipContext.DEFAULT, client.player, TooltipType.ADVANCED);
                     // Find whether the lore includes Tier: Mythic
+                    System.out.println(lore);
                     Optional<Text> mythicTier = lore.stream().filter(line -> line.getString().contains("Tier: Mythic")).findFirst();
                     Optional<Text> itemLevel = lore.stream().filter(line -> line.getString().contains("Lv. ")).findFirst();
 
@@ -83,9 +84,9 @@ public class EventHandlerClass {
                                     String mythicString = itemStack.getName().getString() + " " + itemLevel.get().getString();
                                     if (ConfigsHandler.getConfigBoolean("displayMythicOnFind")) {
                                         if (ConfigsHandler.getConfigBoolean("displayMythicTypeOnFind")) {
-                                            client.player.sendMessage(Text.literal(mythicString + " : §c" + ChestCountMod2Client.getMythicData().getChestsDry() + " dry"));
+                                            client.player.sendMessage(Text.literal(mythicString + " : §c" + ChestCountMod2Client.getMythicData().getChestsDry() + " dry"), false);
                                         } else {
-                                            client.player.sendMessage(Text.literal("§5Mythic found : §c" + ChestCountMod2Client.getMythicData().getChestsDry() + " dry"));
+                                            client.player.sendMessage(Text.literal("§5Mythic found : §c" + ChestCountMod2Client.getMythicData().getChestsDry() + " dry"), false);
                                         }
                                     }
                                     ChestCountMod2Client.getMythicData().addMythic(
@@ -121,12 +122,16 @@ public class EventHandlerClass {
         }
         String containerName = screen.getTitle().getString();
 
-        if (containerName.contains("Loot Chest")) {
+        if (isLootChest(containerName)) {
             drawContext.getMatrices().push();
             drawContext.getMatrices().translate(0f, 0f, 299f);
-            drawContext.drawText(client.textRenderer, chestsDry + " Dry", scaledScreenWidth / 2 - 20, scaledScreenHeight / 2 - 11, new Color(64, 64, 64).getRGB(), false);
+            drawContext.drawText(client.textRenderer, String.format("%,.0f Dry", (double) chestsDry).replace(" ", ","), scaledScreenWidth / 2 - 20, scaledScreenHeight / 2 - 11, new Color(64, 64, 64).getRGB(), false);
             drawContext.getMatrices().pop();
         }
+    }
+
+    private static boolean isLootChest(String containerName) {
+        return containerName.contains("Loot Chest") || containerName.contains("LC");
     }
 
 }

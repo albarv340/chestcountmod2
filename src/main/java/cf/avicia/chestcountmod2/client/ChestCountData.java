@@ -11,6 +11,7 @@ public class ChestCountData {
     private int sessionChestCount = 0;
     private boolean hasBeenInitialized = false;
     private JsonObject playerAPIData = null;
+    private long lastRequestTime = 0;
 
     public ChestCountData() {
 
@@ -20,17 +21,17 @@ public class ChestCountData {
         try {
             JsonElement dryCount = ChestCountMod2Client.getMythicData().getDryData().get("dryCount");
             JsonObject lastMythic = ChestCountMod2Client.getMythicData().getLastMythic();
-            if (!hasBeenInitialized) {
+            if (!hasBeenInitialized && System.currentTimeMillis() - lastRequestTime > 60000) {
                 Gson gson = new Gson();
                 if (MinecraftClient.getInstance().player != null) {
                     String playerAPIDataResponse = WebRequest.getData("https://api.wynncraft.com/v3/player/" + MinecraftClient.getInstance().player.getUuidAsString());
+                    lastRequestTime = System.currentTimeMillis();
                     playerAPIData = gson.fromJson(playerAPIDataResponse, JsonObject.class);
                 }
             }
 
-            if (playerAPIData != null) {
+            if (playerAPIData != null && playerAPIData.has("globalData") && playerAPIData.getAsJsonObject("globalData").has("chestsFound")) {
                 this.totalChestCount = playerAPIData.getAsJsonObject("globalData").get("chestsFound").getAsInt();
-                System.out.println(totalChestCount);
             } else {
                 if (lastMythic != null && dryCount != null) {
                     this.totalChestCount = dryCount.getAsInt() + lastMythic.get("chestCount").getAsInt();

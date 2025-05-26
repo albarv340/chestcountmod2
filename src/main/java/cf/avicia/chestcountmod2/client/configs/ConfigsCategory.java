@@ -31,7 +31,7 @@ public class ConfigsCategory extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void renderWidget(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         int color = 0xBBBBBB;
 
         if (hasSearchItem) {
